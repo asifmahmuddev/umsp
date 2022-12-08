@@ -1,0 +1,116 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>UMSP</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}">
+</head>
+
+<body style="background-position: 0 -60px;">
+
+{% if request.user.is_authenticated %}
+    <nav class="navbar navbar-light navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}"><img
+                class="nav-logo" src="{% static 'assets/img/ewu.png' %}"></a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                    class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+
+                {% if request.user.is_superuser %}
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
+                                                         data-bs-toggle="dropdown" href="#">Student</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
+                                                                     href="{% url 'student_signup' %}">Student
+                                Register</a><a class="dropdown-item" href="#">Student List</a></div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
+                                                         data-bs-toggle="dropdown" href="#">Faculty</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
+                                                                     href="{% url 'faculty_signup' %}">Faculty
+                                Register</a><a class="dropdown-item" href="#">Faculty List</a></div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
+                                                         data-bs-toggle="dropdown" href="#">Department</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
+                                                                     href="{% url 'department' %}">Department
+                                Register</a><a class="dropdown-item" href="#">Department List</a></div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
+                                                         data-bs-toggle="dropdown" href="#">Semester</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
+                                                                     href="{% url 'create_semester' %}">Semester
+                                Register</a><a class="dropdown-item" href="#">Semester List</a></div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
+                                                         data-bs-toggle="dropdown" href="#">Course</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
+                                                                     href="{% url 'advised_course' %}">Course
+                                Register</a><a class="dropdown-item" href="#">Course List</a></div>
+                        </li>
+                    </ul>
+                {% endif %}
+                {% if request.user.is_student %}
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'advising' %}">Advising</a></li>
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'schedule' %}">Class Schedule</a>
+                        </li>
+                    </ul>
+                {% endif %}
+                {% if request.user.is_faculty %}
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link nav-txt"
+                                                href="{% url 'advising_by_faculty' %}">Advising</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link nav-txt" href="{% url 'f_schedule' %}">Class
+                            Schedule</a></li>
+                    </ul>
+                {% endif %}
+
+                <ul class="navbar-nav mx-auto align-items-center">
+                    <li class="nav-item">
+                        <div class="nav-item dropdown"><a aria-expanded="false" data-bs-toggle="dropdown"
+                                                          class="nav-txt"
+                                                          href="#">{{ request.user }}</a>
+                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item" href="{% url 'profile' %}"><i
+                                    class="far fa-user pe-2"></i>Profile</a>
+                                <hr>
+                                <a class="dropdown-item" href="{% url 'logout' %}"><i
+                                        class="fas fa-sign-out-alt pe-2"></i>Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav><!-- End: Navbar Centered Links -->
+{% endif %}
+
+<div>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% block content %}
+    {% endblock content %}
+</div>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/script.min.js' %}"></script>
+</body>
+</html>

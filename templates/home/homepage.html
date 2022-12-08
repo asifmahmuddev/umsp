@@ -1,0 +1,54 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <header class="bg-primary-gradient pt-5"><!-- Start: 1 Row 1 Column -->
+            <div class="container pt-6">
+                <div class="row">
+                    <div class="col-md-12"><p class="mb-4 dash-std-p text-center pt-3">Notice:&nbsp;<span
+                            class="bg-success-light dash-id-bg p-1"><strong>20% Waiver on the Tuition Fee from Spring Semester 2022 - Fall Semester 2023</strong></span>
+                    </p></div>
+                </div>
+            </div><!-- End: 1 Row 1 Column --><!-- Start: Hero Clean Reverse -->
+            <div class="container">
+                <div class="row pt-5">
+                    <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                        <div class="text-center pb-5"><h4 class="fw-bold text-success mb-2"><strong>Welcome</strong><br>
+                        </h4><h5
+                                class="fw-bold">{{ request.user }}</h5></div>
+                    </div>
+                </div>
+            </div><!-- End: Hero Clean Reverse --></header>
+    {% endif %}
+    {% if not request.user.is_authenticated %}
+        <section class="pb-5 mt-5"><!-- Start: Pricing Duo -->
+            <div class="container py-5 indx-con-bg">
+                <div class="row mb-5">
+                    <div class="col-md-8 col-xl-6 text-center mx-auto indx-div-col"><img class="py-1 indx-logo"
+                                                                                         src="{% static 'assets/img/ewu.png' %}">
+                        <h2 class="fw-bold text-degn">University Management System Portal</h2></div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-12 in-col-md-12">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body p-4 indx-fac-bg">
+                                <div class="d-flex justify-content-between">
+                                    <div><h3 class="fw-bold mb-0 text-degn">Admin, Faculty &amp; Student Panel</h3>
+                                        <p class="text-degn">Excellence in Education.<br><br>Join a community of the
+                                            world’s
+                                            brightest minds and prepare to tackle its greatest problems. Here, your
+                                            ideas
+                                            will
+                                            be heard, supported, questioned, tested, and honed as you form a network of
+                                            lifelong
+                                            friends, colleagues, and collaborators.</p></div>
+                                </div>
+                                <a class="btn btn-primary d-block w-100 indx-btn" role="button"
+                                   href="{% url 'login' %}">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End: Pricing Duo --></section><!-- End: Pricing -->
+    {% endif %}
+{% endblock content %}

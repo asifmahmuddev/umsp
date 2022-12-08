@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <header class="bg-primary-gradient pt-5">
+        <!-- Start: Hero Clean Reverse -->
+        <div class="container pb-5">
+            <div class="row pt-5">
+                <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                    <div class="text-center pb-5">
+                        <h4 class="fw-bold text-dark mb-2"><strong>Profile</strong><br></h4>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div><img class="w-15" src="{% static 'assets/img/default.jpg' %}"></div>
+                            <hr>
+                            <h2 class="text-dark">{{ user.username }}{{ user.first_name }} {{ user.last_name }}</h2>
+                            <p class="card-text"><strong>Username: </strong> {{ user.username }} </p>
+                            <p class="card-text"><strong>Email: </strong> {{ user.email }} </p>
+                            {% if student %}
+                                {% for s in student %}
+                                    <p class="card-text"><strong>Department: </strong> {{ s.dept }} </p>
+                                    <p class="card-text"><strong>Admitted Semester: </strong> {{ s.admitted_Semester }}
+                                    </p>
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if faculty %}
+                                {% for f in faculty %}
+                                    <p class="card-text"><strong>Department: </strong> {{ f.dept }} </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End: Hero Clean Reverse -->
+    </header>
+{% endblock %}

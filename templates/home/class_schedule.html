@@ -1,0 +1,89 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+    <header class="bg-primary-gradient pt-5"><!-- Start: Hero Clean Reverse -->
+        <div class="container pt-5 pt-xl-5">
+            <div class="row pt-5">
+                <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                    <div class="text-center pb-3"><h4 class="fw-bold text-success mb-2"><strong>Class
+                        Schedule</strong><br>
+                    </h4></div>
+                </div>
+            </div>
+        </div><!-- End: Hero Clean Reverse --></header>
+
+
+    <section><!-- Start: Features Cards -->
+        <div class="text-center">
+            <form action="" method="post">
+                <select name='semester' id='semester' class="form-select w-50 d-inline-block">
+                    {% for x in semesters %}
+                        <option value="{{ x.semester }}">{{ x.semester }}</option>
+                    {% endfor %}
+                </select>
+                <div class="pt-3">
+                    <button type='submit' class='btn btn-primary shadow indx-btn w-15'>Show Courses</button>
+                </div>
+            </form>
+        </div>
+        {% if courses != 'Null' %}
+            <div id="table1" class='table-responsive my-3'>
+                <table class="table table-hover table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">Course</th>
+                        <th scope="col">Credit</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Room</th>
+                        <th scope="col">Faculty</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td>{{ course.course }}</td>
+                            <td>{{ course.credit }}</td>
+                            <td>{{ course.section }}</td>
+                            <td>{{ course.Time_WeekDay }}</td>
+                            <td>{{ course.Room }}</td>
+                            <td>{{ course.faculty_initial }}</td>
+                        </tr>
+                        {% if course.has_lab == True %}
+                            <td>{{ course.course }} Lab</td>
+                            <td>{{ course.credit }}</td>
+                            <td>{{ course.section }}</td>
+                            <td>{{ course.l_Time_WeekDay }}</td>
+                            <td>{{ course.Room }}</td>
+                            <td>{{ course.faculty_initial }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const getCourses = () => {
+            const table = document.getElementById('table1')
+            const semester = document.getElementById('semester').value
+
+            obj = {semester: semester}
+            $.ajax({
+                url: "{% url 'schedule' %}",
+                method: "POST",
+                data: obj,
+                success: function (data) {
+                    if (data.status == 200) {
+                        alert("paisi")
+                    }
+                }
+            })
+
+            table.className = "table table-hover my-3"
+            table.style.display = 'inline-block'
+        }
+    </script>
+{% endblock content %}

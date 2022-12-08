@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<section class="py-5 mt-5">
+    <div class="container py-5 cont-bg">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        <div class="pb-4"><img class="py-3 indx-logo" src="{% static 'assets/img/ewu.png' %}"><h5
+                                class="fw-bold text-degn">Admin / Faculty / Student Panel Login</h5></div>
+                        <form method="post" id="signform" action="">{% csrf_token %}
+                            <div class="mb-3"><input class="form-control" type="text" name="username"
+                                                     placeholder="Username"
+                                                     required=""></div>
+                            <div class="mb-3"><input class="form-control" type="password" name="password"
+                                                     placeholder="Password" required=""></div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary shadow d-block w-100 indx-btn" type="submit">Login
+                                </button>
+                            </div>
+                            <div class="pb-5"><a class="float-end link-col" href="{% url 'home' %}">Back</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

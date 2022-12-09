@@ -5,9 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import CreateView, ListView
-from .forms import StudentSignUpForm,FacultySignUpForm, DeptForm,CreateSemesterForm, AssignCourseForm
-from .forms import StudentSignUpForm,FacultySignUpForm, DeptForm,CreateSemesterForm, AssignCourseForm
-from advising.models import Course, Create_Semester, TakeCourse
+from .forms import StudentSignUpForm, FacultySignUpForm, DeptForm, CreateCourseForm, CreateSemesterForm, AssignCourseForm
+from advising.models import Department, Course, Create_Semester, AssignedCourse, TakeCourse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from datetime import date, datetime
@@ -33,6 +32,12 @@ class StudentSignUpView(CreateView):
         return redirect('student_signup')
 
 
+def StudentListView(request):
+    student = Student.objects.all();
+
+    return render(request, 'home/student_list.html', {'std': student});
+
+
 class FacultySignUpView(CreateView):
     model = User
     form_class = FacultySignUpForm
@@ -46,6 +51,36 @@ class FacultySignUpView(CreateView):
         user = form.save()
         messages.success(self.request, 'Successfully SignUp')
         return redirect('faculty_signup')
+
+
+def FacultyListView(request):
+    faculty = Faculty.objects.all();
+
+    return render(request, 'home/faculty_list.html', {'fac': faculty});
+
+
+def DepartmentListView(request):
+    department = Department.objects.all();
+
+    return render(request, 'home/department_list.html', {'dep': department});
+
+
+def SemesterListView(request):
+    semester = Create_Semester.objects.all();
+
+    return render(request, 'home/semester_list.html', {'sem': semester});
+
+
+def CourseListView(request):
+    course = Course.objects.all();
+
+    return render(request, 'home/course_list.html', {'cou': course});
+
+
+def AssignedCourseListView(request):
+    assigned_course = AssignedCourse.objects.all();
+
+    return render(request, 'home/assigned_course_list.html', {'ass': assigned_course});
 
 
 @login_required
@@ -87,6 +122,21 @@ def CreateSemesterView(request):
     return render(request, 'home/create_semester.html', {'form': form})
 
 
+class CreateCourseView(CreateView):
+    model = Course
+    form_class = CreateCourseForm
+    template_name = 'home/create_course.html'
+
+    def form_valid(self, form):
+        if self.request.method == 'POST':
+            courseform = CreateCourseForm(self.request.POST)
+
+            if courseform.is_valid():
+                courseform.save()
+                messages.success(self.request, 'Successfully Submitted')
+                return redirect('register_course')
+
+
 def AssignCourseView(request):
     form = AssignCourseForm
     if request.method == 'POST':
@@ -95,10 +145,11 @@ def AssignCourseView(request):
         if assignform.is_valid():
             assignform.save()
             messages.success(request, 'Successfully Submitted')
-            return redirect('advised_course')
+            return redirect('assign_course')
 
-    return render(request, 'home/advised_course.html', {'form': form})
-    
+    return render(request, 'home/assign_course.html', {'form': form})
+
+
 @csrf_exempt
 def Schedule(request):
     semester = Create_Semester.objects.values()
@@ -117,8 +168,6 @@ def Schedule(request):
         'courses': course
         }
     return render(request, 'home/class_schedule.html', obj)
-
-
 
 
 
@@ -166,6 +215,7 @@ def drop_course(request):
 
         }
     return render(request,'home/drop_course.html',context)
+
 
 @csrf_exempt
 def drop(request):

@@ -29,31 +29,38 @@
                                                          data-bs-toggle="dropdown" href="#">Student</a>
                             <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
                                                                      href="{% url 'student_signup' %}">Student
-                                Register</a><a class="dropdown-item" href="#">Student List</a></div>
+                                Register</a><a class="dropdown-item" href="{% url 'student_list' %}">Student List</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
                                                          data-bs-toggle="dropdown" href="#">Faculty</a>
                             <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
                                                                      href="{% url 'faculty_signup' %}">Faculty
-                                Register</a><a class="dropdown-item" href="#">Faculty List</a></div>
+                                Register</a><a class="dropdown-item" href="{% url 'faculty_list' %}">Faculty List</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
                                                          data-bs-toggle="dropdown" href="#">Department</a>
                             <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
                                                                      href="{% url 'department' %}">Department
-                                Register</a><a class="dropdown-item" href="#">Department List</a></div>
+                                Register</a><a class="dropdown-item" href="{% url 'department_list' %}">Department
+                                List</a></div>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
                                                          data-bs-toggle="dropdown" href="#">Semester</a>
                             <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
                                                                      href="{% url 'create_semester' %}">Semester
-                                Register</a><a class="dropdown-item" href="#">Semester List</a></div>
+                                Register</a><a class="dropdown-item" href="{% url 'semester_list' %}">Semester List</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link nav-txt" aria-expanded="false"
                                                          data-bs-toggle="dropdown" href="#">Course</a>
-                            <div class="dropdown-menu dp-menu-bg"><a class="dropdown-item"
-                                                                     href="{% url 'advised_course' %}">Course
-                                Register</a><a class="dropdown-item" href="#">Course List</a></div>
+                            <div class="dropdown-menu dp-menu-bg">
+                                <a class="dropdown-item" href="{% url 'register_course' %}">Course Register</a>
+                                <a class="dropdown-item" href="{% url 'course_list' %}">Course List</a>
+                                <a class="dropdown-item" href="{% url 'assign_course' %}">Assign Course</a>
+                                <a class="dropdown-item" href="{% url 'assigned_course_list' %}">Assigned Course List</a>
+                            </div>
                         </li>
                     </ul>
                 {% endif %}

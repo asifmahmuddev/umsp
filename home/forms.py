@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from advising.models import Create_Semester, Department, AssignedCourse
+from advising.models import Create_Semester, Course, Department, AssignedCourse
 from .models import Student, User, Faculty
 from django.db.models import Q
 
@@ -56,7 +56,14 @@ class CreateSemesterForm(forms.ModelForm):
         fields='__all__'
 
 
+class CreateCourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields='__all__'
+
+
 class AssignCourseForm(forms.ModelForm):
     class Meta:
         model = AssignedCourse
         fields= '__all__'
+

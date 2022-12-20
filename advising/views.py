@@ -73,7 +73,7 @@ def Advising(request):
         if dataTakeCourse:
             print(dataTakeCourse)
             print(dataTakeCourse[0].student_info)
-            messages.error(request, "time collapse")
+            messages.error(request, "Time collapse")
             return JsonResponse({"status": 404})
 
         elif (b == False):
@@ -122,6 +122,7 @@ def deleteTaken(request):
         dat = TakeCourse.objects.filter(course=details[0], section=details[1], student_info=request.user.id)
 
         dat.delete()
+        messages.success(request, 'Success! Course Deleted.')
 
     return JsonResponse({"status": "delete done"})
 
@@ -207,7 +208,7 @@ def CourseTake(request):
         dataTakeCourse = TakeCourse.objects.filter(student_info=details[1], current_semester=update.current_semester, Time_WeekDay=update.Time_WeekDay)
 
         if dataTakeCourse:
-            messages.error(request, "time collapse")
+            messages.error(request, "Time collapse")
             return JsonResponse({"status": 404})
 
         elif (b == False):
@@ -254,6 +255,7 @@ def deleteByFaculty(request):
         dat = TakeCourse.objects.filter(course=details[0], section=details[1], student_info=details[2], current_semester=details[3])
         print(dat)
         dat.delete()
+        messages.success(request, 'Success! Course Deleted.')
 
     return JsonResponse({"status": "delete done"})
 

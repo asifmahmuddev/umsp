@@ -101,9 +101,13 @@ def DeptView(request):
     if request.method == 'POST':
         deptform = DeptForm(request.POST)
         #print(deptform)
+
         if deptform.is_valid():
             deptform.save()
             messages.success(request, 'Successfully Submitted')
+            return redirect('department')
+        else:
+            messages.error(request, 'Error! Department Already Assigned.')
             return redirect('department')
 
     return render(request, 'home/department.html', {'form': form})
@@ -117,6 +121,9 @@ def CreateSemesterView(request):
         if semesterform.is_valid():
             semesterform.save()
             messages.success(request, 'Successfully Submitted')
+            return redirect('create_semester')
+        else:
+            messages.error(request, 'Error! Semester Already Assigned.')
             return redirect('create_semester')
 
     return render(request, 'home/create_semester.html', {'form': form})
@@ -132,10 +139,13 @@ class CreateCourseView(CreateView):
             courseform = CreateCourseForm(self.request.POST)
 
             if courseform.is_valid():
-                courseform.save()
-                messages.success(self.request, 'Successfully Submitted')
-                return redirect('register_course')
-
+                if 1 <= float(courseform.cleaned_data['credit']) <= 4.5:
+                    courseform.save()
+                    messages.success(self.request, 'Successfully Submitted')
+                    return redirect('register_course')
+                else:
+                    messages.error(self.request, 'Invalid! Credit')
+                    return redirect('register_course')
 
 def AssignCourseView(request):
     form = AssignCourseForm
@@ -143,6 +153,17 @@ def AssignCourseView(request):
         assignform = AssignCourseForm(request.POST)
 
         if assignform.is_valid():
+            courses = Course.objects.all()
+            course = assignform.cleaned_data["course"]
+            has_lab = assignform.cleaned_data["has_lab"]
+            lab_weekday = assignform.cleaned_data["l_Time_WeekDay"]
+            lab_room = assignform.cleaned_data["l_Room"]
+            for c in courses:
+                if c == course and float(c.credit) == 3:
+                    if has_lab or lab_weekday or lab_room:
+                        messages.error(request, 'Invalid! The chosen course does not fulfill all of the lab requirements.')
+                        return redirect('assign_course')
+
             assignform.save()
             messages.success(request, 'Successfully Submitted')
             return redirect('assign_course')
